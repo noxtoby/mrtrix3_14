@@ -1,0 +1,329 @@
+
+REPORT: 
+MRtrix build type requested:
+
+REPORT: release
+
+REPORT: 
+
+REPORT: Detecting OS: darwin
+
+REPORT: Checking for C++11 compliant compiler [clang++]:
+EXEC <<
+CMD: clang++ -dumpversion
+EXIT: 0
+STDOUT:
+4.2.1
+>>
+
+
+REPORT: 4.2.1
+
+COMPILE /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp2srS1E.cpp:
+---
+
+struct Base {
+    Base (int);
+};
+struct Derived : Base {
+    using Base::Base;
+};
+
+int main() { 
+  Derived D (int); // check for contructor inheritance
+  return (0); 
+}
+
+---
+EXEC <<
+CMD: clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp2srS1E.cpp -o /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp2srS1E.o
+EXIT: 0
+>>
+
+EXEC <<
+CMD: clang++ /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp2srS1E.o -o a.out
+EXIT: 0
+>>
+
+EXEC <<
+CMD: ./a.out
+EXIT: 0
+>>
+
+
+REPORT:  - tested ok
+
+REPORT: Detecting pointer size:
+
+COMPILE /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp7Dmw3b.cpp:
+---
+
+#include <iostream>
+int main() { 
+  std::cout << sizeof(void*); 
+  return (0);
+}
+
+---
+EXEC <<
+CMD: clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp7Dmw3b.cpp -o /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp7Dmw3b.o
+EXIT: 0
+>>
+
+EXEC <<
+CMD: clang++ /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp7Dmw3b.o -o a.out
+EXIT: 0
+>>
+
+EXEC <<
+CMD: ./a.out
+EXIT: 0
+STDOUT:
+8
+>>
+
+
+REPORT: 64 bit
+
+REPORT: Detecting byte order:
+
+REPORT: little-endian
+
+REPORT: Checking for variable-length array support:
+
+COMPILE /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp40lGbb.cpp:
+---
+
+
+int main(int argc, char* argv[]) { 
+  int x[argc];
+  return 0; 
+}
+
+---
+EXEC <<
+CMD: clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC -DMRTRIX_WORD64 /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp40lGbb.cpp -o /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp40lGbb.o
+EXIT: 0
+>>
+
+EXEC <<
+CMD: clang++ /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmp40lGbb.o -o a.out
+EXIT: 0
+>>
+
+EXEC <<
+CMD: ./a.out
+EXIT: 0
+>>
+
+
+REPORT: yes
+
+REPORT: Checking for non-POD variable-length array support:
+
+COMPILE /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpaukOxB.cpp:
+---
+
+#include <string>
+
+class X {
+  int x;
+  double y;
+  std::string s;
+};
+
+int main(int argc, char* argv[]) { 
+  X x[argc];
+  return 0; 
+}
+
+---
+EXEC <<
+CMD: clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC -DMRTRIX_WORD64 /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpaukOxB.cpp -o /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpaukOxB.o
+EXIT: 1
+STDERR:
+/var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpaukOxB.cpp:11:6: error: variable length array of non-POD element type 'X'
+  X x[argc];
+     ^
+1 error generated.
+>>
+
+error deleting temporary file "/var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpaukOxB.o": No such file or directory
+REPORT: no
+
+REPORT: Checking for zlib compression library:
+
+COMPILE /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpiUMvMc.cpp:
+---
+
+#include <iostream>
+#include <zlib.h>
+
+int main() { 
+  std::cout << zlibVersion(); 
+  return (0);
+}
+
+---
+EXEC <<
+CMD: clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC -DMRTRIX_WORD64 -DMRTRIX_NO_NON_POD_VLA /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpiUMvMc.cpp -o /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpiUMvMc.o
+EXIT: 0
+>>
+
+EXEC <<
+CMD: clang++ /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpiUMvMc.o -lz -o a.out
+EXIT: 0
+>>
+
+EXEC <<
+CMD: ./a.out
+EXIT: 0
+STDOUT:
+1.2.5
+>>
+
+
+REPORT: 1.2.5
+
+REPORT: checking for Eigen 3 library:
+
+COMPILE /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpQtv08p.cpp:
+---
+
+#include <Eigen/Core>
+#include <iostream>
+
+int main (int argc, char* argv[]) {
+  std::cout << EIGEN_WORLD_VERSION << "." << EIGEN_MAJOR_VERSION << "." << EIGEN_MINOR_VERSION << "\n";
+  return 0;
+}
+
+---
+EXEC <<
+CMD: clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC -DMRTRIX_WORD64 -DMRTRIX_NO_NON_POD_VLA -isystem /usr/local/include/eigen3 /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpQtv08p.cpp -o /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpQtv08p.o
+EXIT: 0
+>>
+
+EXEC <<
+CMD: clang++ /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpQtv08p.o -lz -o a.out
+EXIT: 0
+>>
+
+EXEC <<
+CMD: ./a.out
+EXIT: 0
+STDOUT:
+3.2.8
+>>
+
+
+REPORT: 3.2.8
+
+REPORT: Checking shared library generation:
+EXEC <<
+CMD: clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC -DMRTRIX_WORD64 -DMRTRIX_NO_NON_POD_VLA -isystem /usr/local/include/eigen3 /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpZn4iuH.cpp -o /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpZn4iuH.o
+EXIT: 0
+>>
+
+EXEC <<
+CMD: clang++ /var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpZn4iuH.o -dynamiclib -install_name @rpath/LIBNAME -lz -o libtest.dylib
+EXIT: 0
+>>
+
+
+REPORT: yes
+
+REPORT: Checking for Qt moc:
+EXEC <<
+CMD: moc -v
+EXIT: 0
+STDOUT:
+moc 5.6.0
+>>
+
+
+REPORT: moc (version 5.6.0)
+
+REPORT: Checking for Qt qmake:
+EXEC <<
+CMD: qmake -v
+EXIT: 0
+STDOUT:
+QMake version 3.0
+Using Qt version 5.6.0 in /usr/local/Cellar/qt5/5.6.0/lib
+>>
+
+
+REPORT: qmake (version 5.6.0)
+
+REPORT: Checking for Qt rcc:
+EXEC <<
+CMD: rcc -v
+EXIT: 0
+STDOUT:
+rcc 5.6.0
+>>
+
+
+REPORT: rcc (version 5.6.0)
+
+REPORT: Checking for Qt:
+
+source file "qt.h":
+---
+#include <QObject>
+
+class Foo: public QObject {
+  Q_OBJECT;
+  public:
+    Foo();
+    ~Foo();
+  public slots:
+    void setValue(int value);
+  signals:
+    void valueChanged (int newValue);
+  private:
+    int value_;
+};
+---
+
+source file "qt.cpp":
+---
+#include <iostream>
+#include "qt.h"
+
+Foo::Foo() : value_ (42) { connect (this, SIGNAL(valueChanged(int)), this, SLOT(setValue(int))); }
+
+Foo::~Foo() { std::cout << qVersion() << "\n"; }
+
+void Foo::setValue (int value) { value_ = value; }
+
+int main() { Foo f; }
+---
+
+project file "qt.pro":
+---
+CONFIG += c++11
+QT += core gui opengl svg
+HEADERS += qt.h
+SOURCES += qt.cpp
+---
+EXEC <<
+CMD: qmake
+EXIT: 0
+STDOUT:
+Info: creating stash file /private/var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpHnIMAm/.qmake.stash
+>>
+
+
+executing "moc qt.h -o qt_moc.cpp"...
+
+executing "clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC -DMRTRIX_WORD64 -DMRTRIX_NO_NON_POD_VLA -isystem /usr/local/include/eigen3 -pipe -stdlib=libc++ -O2 -std=gnu++11 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtOpenGL.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtSvg.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtWidgets.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtGui.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtCore.framework/Headers -isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/OpenGL.framework/Headers -isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/AGL.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/mkspecs/macx-clang -F/usr/local/Cellar/qt5/5.6.0/lib qt.cpp -o qt.o"...
+
+executing "clang++ -c -std=c++11 -DMRTRIX_MACOSX -fPIC -DMRTRIX_WORD64 -DMRTRIX_NO_NON_POD_VLA -isystem /usr/local/include/eigen3 -pipe -stdlib=libc++ -O2 -std=gnu++11 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtOpenGL.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtSvg.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtWidgets.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtGui.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/lib/QtCore.framework/Headers -isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/OpenGL.framework/Headers -isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/AGL.framework/Headers -isystem /usr/local/Cellar/qt5/5.6.0/mkspecs/macx-clang -F/usr/local/Cellar/qt5/5.6.0/lib qt_moc.cpp -o qt_moc.o"...
+
+executing "clang++ -lz qt_moc.o qt.o -o qt -headerpad_max_install_names -stdlib=libc++ -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.7 -F/usr/local/Cellar/qt5/5.6.0/lib -framework QtOpenGL -framework QtSvg -framework QtWidgets -framework QtGui -framework QtCore -framework OpenGL -framework AGL"...
+
+executing "/var/folders/2t/y7xmp9_52r50f302c34zs_rr0000gn/T/tmpHnIMAm/qt"...
+
+REPORT: 5.6.0
